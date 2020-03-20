@@ -1,7 +1,9 @@
 const mongoose = require('mongoose');
 
+const DB_NAME = 'recipe-book-server';
+
 mongoose
-  .connect('mongodb://localhost/awesome-ptwd-library-project', {
+  .connect(`mongodb://localhost/${DB_NAME}`, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true
