@@ -23,7 +23,7 @@ recipeRouter.post('/recipes', (req, res, next) => {
 // GET all Recipes from the DB
 // ****************************************************************************************
 
-recipeRouter.get('/Recipes', (req, res, next) => {
+recipeRouter.get('/recipes', (req, res, next) => {
   Recipe.find() // <-- .find() method gives us always an ARRAY back
     .then(RecipesFromDB => res.status(200).json({ Recipes: RecipesFromDB }))
     .catch(err => next(err));

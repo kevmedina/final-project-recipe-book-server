@@ -5,9 +5,17 @@ const recipeSchema = new Schema(
   {
     // unless you are defining more than the "type" property, you don't have to use {} (see below)
     // firstName: {type: String, require: true}
-    name: String,
-    ingredients: [String],
-    cookTime: String,
+    name: {
+      type: String,
+      required: true,
+      trim: true
+    },
+    ingredients: {
+      type: [String],
+      required: true,
+      trim: true
+    },
+    cookTime: Number,
     pictureUrl: String,
     rating: Number
   },
