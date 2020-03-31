@@ -52,7 +52,7 @@ app.locals.title = "Express - Generated with IronGenerator";
 //      V  V  V
 app.use("/", require("./routes/index.routes"));
 app.use("/", require("./routes/recipe.routes"));
-app.use("/", require("./routes/book.routes"));
+app.use("/", require("./routes/recipe-book.routes"));
 app.use("/", require("./routes/authentication.routes"));
 
 module.exports = app;

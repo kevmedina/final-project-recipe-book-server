@@ -4,40 +4,40 @@
 const express = require('express');
 const router = express.Router();
 
-// ********* require Author and Book models in order to use them *********
-const Recipe = require('../models/Recipe.model');
+// ********* require Recipe and RecipeBook models in order to use them *********
+// const Recipe = require('../models/Recipe.model');
 const RecipeBook = require('../models/RecipeBook.model');
 
 // ****************************************************************************************
-// POST - create a book
+// POST - create a recipe book
 // ****************************************************************************************
 
-// <form action="/books" method="POST">
-router.post('/books', (req, res) => {
+// <form action="/recipe-books" method="POST">
+router.post('/recipe-books', (req, res) => {
   // console.log(req.body);
   RecipeBook.create(req.body)
-    .then(bookDoc => res.status(200).json({ book: bookDoc }))
+    .then(RecipeBook => res.status(200).json({ book: RecipeBook }))
     .catch(err => next(err));
 });
 
 // ****************************************************************************************
-// GET route to get all the books
+// GET route to get all the recipe books
 // ****************************************************************************************
 
-router.get('/books', (req, res) => {
+router.get('/recipe-books', (req, res) => {
   RecipeBook.find()
-    .then(booksFromDB => res.status(200).json({ books: booksFromDB }))
+    .then(recipeBooksFromDB => res.status(200).json({ books: recipeBooksFromDB }))
     .catch(err => next(err));
 });
 
 // ****************************************************************************************
-// POST route to delete the book
+// POST route to delete the recipe book
 // ****************************************************************************************
 
-// <form action="/books/{{this._id}}/delete" method="post">
-router.post('/books/:bookId/delete', (req, res) => {
+// <form action="/recipe-books/{{this._id}}/delete" method="post">
+router.post('/recipe-books/:recipeBookId/delete', (req, res) => {
   RecipeBook.findByIdAndRemove(req.params.bookId)
-    .then(() => res.json({ message: 'Successfully removed!' }))
+    .then(() => res.json({ message: 'Successfully removed the recipe book!' }))
     .catch(err => next(err));
 });
 
@@ -45,21 +45,21 @@ router.post('/books/:bookId/delete', (req, res) => {
 // POST route to save the updates
 // ****************************************************************************************
 
-// <form action="/books/{{foundBook._id}}/update" method="POST">
-router.post('/books/:id/update', (req, res) => {
+// <form action="/recipe-books/{{foundBook._id}}/update" method="POST">
+router.post('/recipe-books/:id/update', (req, res) => {
   RecipeBook.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    .then(updatedBook => res.status(200).json({ book: updatedBook }))
+    .then(updatedRecipeBook => res.status(200).json({ book: updatedRecipeBook }))
     .catch(err => next(err));
 });
 
 // ****************************************************************************************
-// GET route for getting the book details
+// GET route for getting the recipe book details
 // ****************************************************************************************
 
-router.get('/books/:someBookId', (req, res) => {
-  RecipeBook.findById(req.params.someBookId)
+router.get('/recipe-books/:recipeBookId', (req, res) => {
+  RecipeBook.findById(req.params.recipeBookId)
     .populate('recipe')
-    .then(foundBook => res.status(200).json({ book: foundBook }))
+    .then(RecipeBook => res.status(200).json({ book: RecipeBook }))
     .catch(err => next(err));
 });
 

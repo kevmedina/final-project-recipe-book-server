@@ -3,8 +3,7 @@ const { Schema, model } = mongoose;
 
 const recipeSchema = new Schema(
   {
-    // unless you are defining more than the "type" property, you don't have to use {} (see below)
-    // firstName: {type: String, require: true}
+    // unless you are defining more than the "type" property, you don't have to use {}
     name: {
       type: String,
       required: true,
@@ -15,6 +14,7 @@ const recipeSchema = new Schema(
       required: true,
       trim: true
     },
+    directions: String,
     cookTime: Number,
     pictureUrl: String,
     rating: Number
@@ -25,7 +25,7 @@ const recipeSchema = new Schema(
   }
 );
 
-// const Author = model('Author', authorSchema);
-// module.exports = Author;
+// const Recipe = model('Recipe', RecipeSchema);
+// module.exports = Recipe;
 
 module.exports = model('Recipe', recipeSchema);

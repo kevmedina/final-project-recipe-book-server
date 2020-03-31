@@ -4,18 +4,18 @@
 const express = require('express');
 const recipeRouter = express.Router();
 
-// ********* require Author model in order to use it for CRUD *********
+// ********* require Recipe model in order to use it for CRUD *********
 const Recipe = require('../models/Recipe.model');
 
 // ****************************************************************************************
-// POST route to create a new author in the DB
+// POST route to create a new recipe in the DB
 // ****************************************************************************************
 
 // <form action="/recipes" method="POST">
-recipeRouter.post('/recipes', (req, res, next) => {
+recipeRouter.post('/recipe', (req, res, next) => {
   console.log(req.body);
   Recipe.create(req.body)
-    .then(RecipeDoc => res.status(200).json(RecipeDoc))
+    .then(recipe => res.status(200).json(recipe))
     .catch(err => next(err));
 });
 
