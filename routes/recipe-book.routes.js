@@ -36,7 +36,7 @@ router.get('/recipe-books', (req, res) => {
 
 // <form action="/recipe-books/{{this._id}}/delete" method="post">
 router.post('/recipe-books/:recipeBookId/delete', (req, res) => {
-  RecipeBook.findByIdAndRemove(req.params.bookId)
+  RecipeBook.findByIdAndRemove(req.params.recipeBookId)
     .then(() => res.json({ message: 'Successfully removed the recipe book!' }))
     .catch(err => next(err));
 });
@@ -46,8 +46,8 @@ router.post('/recipe-books/:recipeBookId/delete', (req, res) => {
 // ****************************************************************************************
 
 // <form action="/recipe-books/{{foundBook._id}}/update" method="POST">
-router.post('/recipe-books/:id/update', (req, res) => {
-  RecipeBook.findByIdAndUpdate(req.params.id, req.body, { new: true })
+router.post('/recipe-books/:recipeBookId/update', (req, res) => {
+  RecipeBook.findByIdAndUpdate(req.params.recipeBookId, req.body, { new: true })
     .then(updatedRecipeBook => res.status(200).json({ book: updatedRecipeBook }))
     .catch(err => next(err));
 });
