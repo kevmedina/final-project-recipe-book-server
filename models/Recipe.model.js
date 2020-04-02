@@ -1,9 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema, model } = mongoose;
 
 const recipeSchema = new Schema(
   {
     // unless you are defining more than the "type" property, you don't have to use {}
+    author: { type: Schema.Types.ObjectId, ref: "User" },
     name: {
       type: String,
       required: true,
@@ -28,4 +29,4 @@ const recipeSchema = new Schema(
 // const Recipe = model('Recipe', RecipeSchema);
 // module.exports = Recipe;
 
-module.exports = model('Recipe', recipeSchema);
+module.exports = model("Recipe", recipeSchema);
