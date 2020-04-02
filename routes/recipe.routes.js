@@ -33,7 +33,7 @@ recipeRouter.get("/recipes", (req, res, next) => {
 // ****************************************************************************************
 
 recipeRouter.post("/recipes/:recipeID/delete", (req, res, next) => {
-  Recipe.findByIdAndDelete(req.params.recipeID)
+  Recipe.findByIdAndRemove(req.params.recipeID)
     .then(deletedRecipe => console.log("deleted recipe: ", deletedRecipe))
     .catch(err => next(err));
 });
