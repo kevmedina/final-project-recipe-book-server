@@ -28,6 +28,7 @@ recipeRouter.get("/recipes", (req, res, next) => {
     .then(recipesFromDB => res.status(200).json({ recipes: recipesFromDB }))
     .catch(err => next(err));
 });
+
 // ****************************************************************************************
 // GET recipe by ID from DB and Delete
 // ****************************************************************************************
@@ -41,6 +42,7 @@ recipeRouter.post("/recipes/:recipeID/delete", (req, res, next) => {
 // ****************************************************************************************
 // GET recipe by ID from DB and Update
 // ****************************************************************************************
+
 recipeRouter.get("/recipes/:recipeID/update", (req, res, next) => {
   Recipe.findByIdAndUpdate(req.params.recipeID, req.body, { new: true })
     .then(updatedRecipe => res.status(200).json({ recipe: updatedRecipe }))
@@ -50,6 +52,7 @@ recipeRouter.get("/recipes/:recipeID/update", (req, res, next) => {
 // ****************************************************************************************
 // GET recipe by ID from DB
 // ****************************************************************************************
+
 recipeRouter.get("/recipes/:recipeID", (req, res, next) => {
   Recipe.findById(req.params.recipeID)
     .then(recipe => res.status(200).json({ recipe }))
