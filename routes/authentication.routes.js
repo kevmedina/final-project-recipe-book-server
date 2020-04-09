@@ -95,6 +95,7 @@ router.post("/api/logout", (req, res, next) => {
 });
 
 router.get("/api/isLoggedIn", (req, res) => {
+  console.log("checking logged in user: ", req.user);
   if (req.user) {
     req.user.passwordHash = undefined;
     res.status(200).json({ user: req.user });

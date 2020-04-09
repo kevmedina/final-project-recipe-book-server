@@ -6,6 +6,7 @@ const recipeRouter = express.Router();
 
 // ********* require Recipe model in order to use it for CRUD *********
 const Recipe = require("../models/Recipe.model");
+const axios = require('axios');
 
 // ****************************************************************************************
 // POST route to create a new recipe in the DB
@@ -57,6 +58,17 @@ recipeRouter.get("/recipes/:recipeID", (req, res, next) => {
   Recipe.findById(req.params.recipeID)
     .then(recipe => res.status(200).json({ recipe }))
     .catch(err => next(err));
+});
+
+// Get recipe from external API
+recipeRouter.post('/searchExternalAPI', (req, res, next) => {
+  axios
+      .get(`https://api.edamam.com/search?q=${req.body.param}&app_id=${process.env.API_ID}&app_key=${process.env.API_KEY}`)
+      .then((recipesFromAPI) => {
+        console.log({recipes: recipesFromAPI.data.hits})
+        res.status(200).json(recipesFromAPI.data.hits);
+      })
+      .catch((err) => res.status(400).json({message: err}));
 });
 
 module.exports = recipeRouter;
