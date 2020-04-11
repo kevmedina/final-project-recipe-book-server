@@ -19,6 +19,10 @@ const userSchema = new Schema(
     passwordHash: {
       type: String,
       required: [true, 'Password is required.']
+    },
+    image: {
+      type: String,
+      default: 'https://www.cetaad.org/sites/default/files/inline-images/avatar-placeholder.png'
     }
   },
   {
