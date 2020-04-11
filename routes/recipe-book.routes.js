@@ -13,11 +13,13 @@ const RecipeBook = require("../models/RecipeBook.model");
 // ****************************************************************************************
 
 // <form action="/recipe-books" method="POST">
-router.post("/new-recipebook", (req, res) => {
+router.post("/new-recipebook", (req, res, next) => {
   // console.log(req.body);
   const { param } = req.body;
   RecipeBook.create({ title: param, author: req.user._id })
-    .then((RecipeBook) => res.status(200).json({ RecipeBook }))
+    .then(() =>
+      RecipeBook.find().then((allRecipeBooks) => res.status(200).json(allRecipeBooks))
+    )
     .catch((err) => next(err));
 });
 
@@ -27,9 +29,7 @@ router.post("/new-recipebook", (req, res) => {
 
 router.get("/recipe-books", (req, res) => {
   RecipeBook.find()
-    .then((recipeBooksFromDB) =>
-      res.status(200).json({ books: recipeBooksFromDB })
-    )
+    .then((recipeBooksFromDB) => res.status(200).json(recipeBooksFromDB))
     .catch((err) => next(err));
 });
 
@@ -38,9 +38,12 @@ router.get("/recipe-books", (req, res) => {
 // ****************************************************************************************
 
 // <form action="/recipe-books/{{this._id}}/delete" method="post">
-router.post("/recipe-books/:recipeBookId/delete", (req, res) => {
+router.post("/recipe-books/:recipeBookId/delete", (req, res, next) => {
+  console.log("Recipe book ID: ", req.params.recipeBookId);
   RecipeBook.findByIdAndRemove(req.params.recipeBookId)
-    .then(() => res.json({ message: "Successfully removed the recipe book!" }))
+    .then(() =>
+      RecipeBook.find().then((response) => res.status(200).json(response))
+    )
     .catch((err) => next(err));
 });
 
