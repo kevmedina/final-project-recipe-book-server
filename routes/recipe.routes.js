@@ -63,10 +63,10 @@ recipeRouter.get("/recipes/:recipeID", (req, res, next) => {
 // Get recipe from external API
 recipeRouter.post('/searchExternalAPI', (req, res, next) => {
   axios
-      .get(`https://api.edamam.com/search?q=${req.body.param}&app_id=${process.env.API_ID}&app_key=${process.env.API_KEY}`)
+      .get(`https://api.spoonacular.com/recipes/search?query=${req.body.param}&apiKey=${process.env.API_KEY}`)
       .then((recipesFromAPI) => {
-        console.log({recipes: recipesFromAPI.data.hits})
-        res.status(200).json(recipesFromAPI.data.hits);
+        console.log({recipes: recipesFromAPI.data.results})
+        res.status(200).json(recipesFromAPI.data.results);
       })
       .catch((err) => res.status(400).json({message: err}));
 });
