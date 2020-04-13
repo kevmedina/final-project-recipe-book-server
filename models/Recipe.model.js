@@ -8,21 +8,27 @@ const recipeSchema = new Schema(
     name: {
       type: String,
       required: true,
-      trim: true
+      trim: true,
     },
     ingredients: {
       type: [String],
-      required: true,
-      trim: true
+      trim: true,
     },
-    directions: String,
+    category: {
+      type: String,
+      enum: ["appetizers", "beverages", "main dishes", "desserts", "misc"],
+    },
     cookTime: Number,
-    pictureUrl: String,
-    rating: Number
+    servings: Number,
+    image: {
+      type: String,
+      default: "./default-recipe.png",
+    },
+    favorite: Boolean,
   },
   {
     // keeps record when is created and updated
-    timestamps: true
+    timestamps: true,
   }
 );
 
