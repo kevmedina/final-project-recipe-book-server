@@ -5,7 +5,7 @@ const recipeSchema = new Schema(
   {
     // unless you are defining more than the "type" property, you don't have to use {}
     author: { type: Schema.Types.ObjectId, ref: "User" },
-    name: {
+    title: {
       type: String,
       required: true,
       trim: true,
@@ -18,7 +18,7 @@ const recipeSchema = new Schema(
       type: String,
       enum: ["appetizers", "beverages", "main dishes", "desserts", "misc"],
     },
-    cookTime: Number,
+    readyInMinutes: Number,
     servings: Number,
     image: {
       type: String,
