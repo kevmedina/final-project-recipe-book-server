@@ -6,18 +6,29 @@ const recipeRouter = express.Router();
 
 // ********* require Recipe model in order to use it for CRUD *********
 const Recipe = require("../models/Recipe.model");
-const axios = require('axios');
+const RecipeBook = require("../models/RecipeBook.model");
+const axios = require("axios");
 
 // ****************************************************************************************
 // POST route to create a new recipe in the DB
 // ****************************************************************************************
 
 // <form action="/recipes" method="POST">
-recipeRouter.post("/recipe", (req, res, next) => {
+recipeRouter.post("/add-recipe", (req, res, next) => {
   console.log(req.body);
-  Recipe.create(req.body)
-    .then(recipe => res.status(200).json(recipe))
-    .catch(err => next(err));
+  const { title, readyInMinutes, servings, image } = req.body;
+  // RecipeBook.find({ title: bookTitle })
+  Recipe.create({
+    title,
+    ingredients: "",
+    bookName: "Test",
+    readyInMinutes,
+    servings,
+    image,
+    favorite: false,
+  })
+    .then((recipe) => res.status(200).json(recipe))
+    .catch((err) => next(err));
 });
 
 // ****************************************************************************************
@@ -26,8 +37,8 @@ recipeRouter.post("/recipe", (req, res, next) => {
 
 recipeRouter.get("/recipes", (req, res, next) => {
   Recipe.find() // <-- .find() method gives us always an ARRAY back
-    .then(recipesFromDB => res.status(200).json({ recipes: recipesFromDB }))
-    .catch(err => next(err));
+    .then((recipesFromDB) => res.status(200).json({ recipes: recipesFromDB }))
+    .catch((err) => next(err));
 });
 
 // ****************************************************************************************
@@ -36,8 +47,8 @@ recipeRouter.get("/recipes", (req, res, next) => {
 
 recipeRouter.post("/recipes/:recipeID/delete", (req, res, next) => {
   Recipe.findByIdAndRemove(req.params.recipeID)
-    .then(deletedRecipe => console.log("deleted recipe: ", deletedRecipe))
-    .catch(err => next(err));
+    .then((deletedRecipe) => console.log("deleted recipe: ", deletedRecipe))
+    .catch((err) => next(err));
 });
 
 // ****************************************************************************************
@@ -46,8 +57,8 @@ recipeRouter.post("/recipes/:recipeID/delete", (req, res, next) => {
 
 recipeRouter.get("/recipes/:recipeID/update", (req, res, next) => {
   Recipe.findByIdAndUpdate(req.params.recipeID, req.body, { new: true })
-    .then(updatedRecipe => res.status(200).json({ recipe: updatedRecipe }))
-    .catch(err => next(err));
+    .then((updatedRecipe) => res.status(200).json({ recipe: updatedRecipe }))
+    .catch((err) => next(err));
 });
 
 // ****************************************************************************************
@@ -56,19 +67,21 @@ recipeRouter.get("/recipes/:recipeID/update", (req, res, next) => {
 
 recipeRouter.get("/recipes/:recipeID", (req, res, next) => {
   Recipe.findById(req.params.recipeID)
-    .then(recipe => res.status(200).json({ recipe }))
-    .catch(err => next(err));
+    .then((recipe) => res.status(200).json({ recipe }))
+    .catch((err) => next(err));
 });
 
 // Get recipe from external API
-recipeRouter.post('/searchExternalAPI', (req, res, next) => {
+recipeRouter.post("/searchExternalAPI", (req, res, next) => {
   axios
-      .get(`https://api.spoonacular.com/recipes/search?query=${req.body.param}&apiKey=${process.env.API_KEY}`)
-      .then((recipesFromAPI) => {
-        console.log({recipes: recipesFromAPI.data.results})
-        res.status(200).json(recipesFromAPI.data.results);
-      })
-      .catch((err) => res.status(400).json({message: err}));
+    .get(
+      `https://api.spoonacular.com/recipes/search?query=${req.body.param}&apiKey=${process.env.API_KEY}`
+    )
+    .then((recipesFromAPI) => {
+      console.log({ recipes: recipesFromAPI.data.results });
+      res.status(200).json(recipesFromAPI.data.results);
+    })
+    .catch((err) => res.status(400).json({ message: err }));
 });
 
 module.exports = recipeRouter;

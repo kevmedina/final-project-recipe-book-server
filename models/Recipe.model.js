@@ -14,9 +14,10 @@ const recipeSchema = new Schema(
       type: [String],
       trim: true,
     },
-    category: {
+    bookName: {
       type: String,
-      enum: ["appetizers", "beverages", "main dishes", "desserts", "misc"],
+      required: true,
+      trim: true,
     },
     readyInMinutes: Number,
     servings: Number,
