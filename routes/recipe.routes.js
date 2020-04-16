@@ -16,18 +16,25 @@ const axios = require("axios");
 // <form action="/recipes" method="POST">
 recipeRouter.post("/add-recipe", (req, res, next) => {
   console.log(req.body);
-  const { title, readyInMinutes, servings, image } = req.body;
-  // RecipeBook.find({ title: bookTitle })
+  const { title, readyInMinutes, servings, image, bookId } = req.body;
   Recipe.create({
     title,
     ingredients: "",
-    bookName: "Test",
+    bookId,
     readyInMinutes,
     servings,
     image,
     favorite: false,
   })
-    .then((recipe) => res.status(200).json(recipe))
+    .then((recipe) =>
+      RecipeBook.findByIdAndUpdate(
+        bookId,
+        {
+          $push: { recipe: recipe },
+        },
+        { new: true }
+      ).then((response) => res.status(200).json(response))
+    )
     .catch((err) => next(err));
 });
 

@@ -14,10 +14,9 @@ const recipeSchema = new Schema(
       type: [String],
       trim: true,
     },
-    bookName: {
-      type: String,
-      required: true,
-      trim: true,
+    bookId: {
+      type: Schema.Types.ObjectId,
+      ref: "RecipeBook",
     },
     readyInMinutes: Number,
     servings: Number,
