@@ -13,12 +13,14 @@ const RecipeBook = require("../models/RecipeBook.model");
 // ****************************************************************************************
 
 // <form action="/recipe-books" method="POST">
-router.post("/new-recipebook", (req, res, next) => {
+router.post("/add-recipebook", (req, res, next) => {
   // console.log(req.body);
   const { param } = req.body;
   RecipeBook.create({ title: param, author: req.user._id })
     .then(() =>
-      RecipeBook.find().then((allRecipeBooks) => res.status(200).json(allRecipeBooks))
+      RecipeBook.find().then((allRecipeBooks) =>
+        res.status(200).json(allRecipeBooks)
+      )
     )
     .catch((err) => next(err));
 });
@@ -67,7 +69,7 @@ router.post("/recipe-books/:recipeBookId/update", (req, res) => {
 router.get("/recipe-books/:recipeBookId", (req, res) => {
   RecipeBook.findById(req.params.recipeBookId)
     .populate("recipe")
-    .then((RecipeBook) => res.status(200).json({ book: RecipeBook }))
+    .then((RecipeBook) => res.status(200).json(RecipeBook))
     .catch((err) => next(err));
 });
 
