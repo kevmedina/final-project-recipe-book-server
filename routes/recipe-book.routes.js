@@ -68,9 +68,10 @@ router.post("/recipe-books/:recipeBookId/update", (req, res) => {
 
 router.get("/recipe-books/:recipeBookId", (req, res) => {
   RecipeBook.findById(req.params.recipeBookId)
-    .populate("recipe")
+    .populate("recipes")
     .then((RecipeBook) => res.status(200).json(RecipeBook))
     .catch((err) => next(err));
 });
 
 module.exports = router;
+

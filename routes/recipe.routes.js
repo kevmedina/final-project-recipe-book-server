@@ -30,7 +30,7 @@ recipeRouter.post("/add-recipe", (req, res, next) => {
       RecipeBook.findByIdAndUpdate(
         bookId,
         {
-          $push: { recipe: recipe },
+          $push: { recipes: recipe },
         },
         { new: true }
       ).then((response) => res.status(200).json(response))
