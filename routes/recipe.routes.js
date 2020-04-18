@@ -52,10 +52,21 @@ recipeRouter.get("/recipes", (req, res, next) => {
 // GET recipe by ID from DB and Delete
 // ****************************************************************************************
 
-recipeRouter.post("/recipes/:recipeID/delete", (req, res, next) => {
-  Recipe.findByIdAndRemove(req.params.recipeID)
-    .then((deletedRecipe) => console.log("deleted recipe: ", deletedRecipe))
-    .catch((err) => next(err));
+recipeRouter.post("/recipe/delete", (req, res, next) => {
+  const { recipeId, recipeBookId } = req.body;
+  RecipeBook.findById(recipeBookId)
+    .then(() =>
+      Recipe.findByIdAndRemove(recipeId)
+        .then((deletedRecipe) => console.log("Deleted recipe: ", deletedRecipe))
+        .catch((err) =>
+          console.log("Error while finding the recipe to delete: ", err)
+        )
+    )
+    .catch((err) => console.log("Error while finding the recipe book: ", err));
+
+  // Recipe.findByIdAndRemove()
+  //   .then((deletedRecipe) => console.log("deleted recipe: ", deletedRecipe))
+  //   .catch((err) => next(err));
 });
 
 // ****************************************************************************************
