@@ -40,9 +40,9 @@ router.get("/recipe-books", (req, res) => {
 // ****************************************************************************************
 
 // <form action="/recipe-books/{{this._id}}/delete" method="post">
-router.post("/recipe-books/:recipeBookId/delete", (req, res, next) => {
-  console.log("Recipe book ID: ", req.params.recipeBookId);
-  RecipeBook.findByIdAndRemove(req.params.recipeBookId)
+router.post("/recipe-books/:recipeBookID/delete", (req, res, next) => {
+  console.log("Recipe book ID: ", req.params.recipeBookID);
+  RecipeBook.findByIdAndRemove(req.params.recipeBookID)
     .then(() =>
       RecipeBook.find().then((response) => res.status(200).json(response))
     )
@@ -54,8 +54,8 @@ router.post("/recipe-books/:recipeBookId/delete", (req, res, next) => {
 // ****************************************************************************************
 
 // <form action="/recipe-books/{{foundBook._id}}/update" method="POST">
-router.post("/recipe-books/:recipeBookId/update", (req, res) => {
-  RecipeBook.findByIdAndUpdate(req.params.recipeBookId, req.body, { new: true })
+router.post("/recipe-books/:recipeBookID/update", (req, res) => {
+  RecipeBook.findByIdAndUpdate(req.params.recipeBookID, req.body, { new: true })
     .then((updatedRecipeBook) =>
       res.status(200).json({ book: updatedRecipeBook })
     )
@@ -66,8 +66,8 @@ router.post("/recipe-books/:recipeBookId/update", (req, res) => {
 // GET route for getting the recipe book details
 // ****************************************************************************************
 
-router.get("/recipe-books/:recipeBookId", (req, res) => {
-  RecipeBook.findById(req.params.recipeBookId)
+router.get("/recipe-books/:recipeBookID", (req, res) => {
+  RecipeBook.findById(req.params.recipeBookID)
     .populate("recipes")
     .then((RecipeBook) => res.status(200).json(RecipeBook))
     .catch((err) => next(err));

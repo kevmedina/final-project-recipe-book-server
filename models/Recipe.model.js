@@ -14,7 +14,7 @@ const recipeSchema = new Schema(
       type: [String],
       trim: true,
     },
-    bookId: {
+    bookID: {
       type: Schema.Types.ObjectId,
       ref: "RecipeBook",
     },

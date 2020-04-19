@@ -16,11 +16,11 @@ const axios = require("axios");
 // <form action="/recipes" method="POST">
 recipeRouter.post("/add-recipe", (req, res, next) => {
   console.log(req.body);
-  const { title, readyInMinutes, servings, image, bookId } = req.body;
+  const { title, readyInMinutes, servings, image, bookID } = req.body;
   Recipe.create({
     title,
     ingredients: "",
-    bookId,
+    bookID,
     readyInMinutes,
     servings,
     image,
@@ -28,7 +28,7 @@ recipeRouter.post("/add-recipe", (req, res, next) => {
   })
     .then((recipe) =>
       RecipeBook.findByIdAndUpdate(
-        bookId,
+        bookID,
         {
           $push: { recipes: recipe },
         },
@@ -53,29 +53,30 @@ recipeRouter.get("/recipes", (req, res, next) => {
 // ****************************************************************************************
 
 recipeRouter.post("/recipe/delete", (req, res, next) => {
-  const { recipeId, recipeBookId } = req.body;
-  RecipeBook.findById(recipeBookId)
+  const { recipeID, recipebookID } = req.body;
+  RecipeBook.findById(recipebookID)
     .then(() =>
-      Recipe.findByIdAndRemove(recipeId)
+      Recipe.findByIdAndRemove(recipeID)
         .then((deletedRecipe) => console.log("Deleted recipe: ", deletedRecipe))
         .catch((err) =>
           console.log("Error while finding the recipe to delete: ", err)
         )
     )
     .catch((err) => console.log("Error while finding the recipe book: ", err));
-
-  // Recipe.findByIdAndRemove()
-  //   .then((deletedRecipe) => console.log("deleted recipe: ", deletedRecipe))
-  //   .catch((err) => next(err));
 });
 
 // ****************************************************************************************
 // GET recipe by ID from DB and Update
 // ****************************************************************************************
 
-recipeRouter.get("/recipes/:recipeID/update", (req, res, next) => {
-  Recipe.findByIdAndUpdate(req.params.recipeID, req.body, { new: true })
-    .then((updatedRecipe) => res.status(200).json({ recipe: updatedRecipe }))
+recipeRouter.get("/recipe/:recipeID/update", (req, res, next) => {
+  const { recipeID } = req.params;
+  Recipe.findByIdAndUpdate(
+    { _id: recipeID },
+    { $set: { favorite: true } },
+    { new: true }
+  )
+    .then((updatedRecipe) => res.status(200).json(updatedRecipe))
     .catch((err) => next(err));
 });
 
@@ -87,6 +88,15 @@ recipeRouter.get("/recipes/:recipeID", (req, res, next) => {
   Recipe.findById(req.params.recipeID)
     .then((recipe) => res.status(200).json({ recipe }))
     .catch((err) => next(err));
+});
+
+// Get favorite recipes from DB
+recipeRouter.get("/favorite-recipes", (req, res, next) => {
+  Recipe.find({ favorite: true })
+    .then((favoriteRecipes) => res.status(200).json(favoriteRecipes))
+    .catch((err) =>
+      console.log("Error while getting the favorite recipes: ", err)
+    );
 });
 
 // Get recipe from external API
