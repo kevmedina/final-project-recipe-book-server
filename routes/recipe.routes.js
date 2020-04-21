@@ -57,7 +57,10 @@ recipeRouter.post("/recipe/delete", (req, res, next) => {
   RecipeBook.findById(recipebookID)
     .then(() =>
       Recipe.findByIdAndRemove(recipeID)
-        .then((deletedRecipe) => console.log("Deleted recipe: ", deletedRecipe))
+        .then((deletedRecipe) => {
+          console.log("Deleted recipe: ", deletedRecipe);
+          res.status(200).json({message: 'Recipe successfully deleted!'})
+        })
         .catch((err) =>
           console.log("Error while finding the recipe to delete: ", err)
         )
@@ -66,13 +69,13 @@ recipeRouter.post("/recipe/delete", (req, res, next) => {
 });
 
 // ****************************************************************************************
-// GET recipe by ID from DB and Update
+// GET recipe by ID from DB and Update favorite = true
 // ****************************************************************************************
 
-recipeRouter.get("/recipe/:recipeID/update", (req, res, next) => {
+recipeRouter.post("/recipe/:recipeID/update", (req, res, next) => {
   const { recipeID } = req.params;
   Recipe.findByIdAndUpdate(
-    { _id: recipeID },
+    recipeID,
     { $set: { favorite: true } },
     { new: true }
   )
