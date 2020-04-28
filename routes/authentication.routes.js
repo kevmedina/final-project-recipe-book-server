@@ -107,4 +107,12 @@ router.get("/api/isLoggedIn", (req, res) => {
   // res.status(401).json({ message: 'Unauthorized access!' });
 });
 
+router.post("/api/update-profile", (req, res) => {
+  // User.findByIdAndUpdate({})
+  //   .then((updatedUser) => {
+  //     res.status(200).json(updatedUser);
+  //   })
+  //   .catch((err) => console.log("Error while updating the user"));
+});
+
 module.exports = router;
