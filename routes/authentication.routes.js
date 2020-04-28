@@ -108,11 +108,12 @@ router.get("/api/isLoggedIn", (req, res) => {
 });
 
 router.post("/api/update-profile", (req, res) => {
-  // User.findByIdAndUpdate({})
-  //   .then((updatedUser) => {
-  //     res.status(200).json(updatedUser);
-  //   })
-  //   .catch((err) => console.log("Error while updating the user"));
+  const { username, email } = req.body;
+  User.findByIdAndUpdate(req.user._id, { username, email }, { new: true })
+    .then((updatedUser) => {
+      res.status(200).json(updatedUser);
+    })
+    .catch((err) => console.log("Error while updating the user", err));
 });
 
 module.exports = router;
