@@ -15,9 +15,9 @@ const axios = require("axios");
 
 // <form action="/recipes" method="POST">
 recipeRouter.post("/add-recipe", (req, res, next) => {
-  console.log(req.body);
   const { title, readyInMinutes, servings, image, bookID } = req.body;
   Recipe.create({
+    // author: req.user._id,
     title,
     ingredients: "",
     bookID,
@@ -43,7 +43,7 @@ recipeRouter.post("/add-recipe", (req, res, next) => {
 // ****************************************************************************************
 
 recipeRouter.get("/recipes", (req, res, next) => {
-  Recipe.find() // <-- .find() method gives us always an ARRAY back
+  Recipe.find({ author: req.user._id }) // <-- .find() method gives us always an ARRAY back
     .then((recipesFromDB) => res.status(200).json({ recipes: recipesFromDB }))
     .catch((err) => next(err));
 });
@@ -54,7 +54,11 @@ recipeRouter.get("/recipes", (req, res, next) => {
 
 recipeRouter.post("/recipe/delete", (req, res, next) => {
   const { recipeID, recipebookID } = req.body;
-  RecipeBook.findById(recipebookID)
+  RecipeBook.findByIdAndUpdate(
+    recipebookID,
+    { $pull: { recipes: recipeID } },
+    { new: true }
+  )
     .then(() =>
       Recipe.findByIdAndRemove(recipeID)
         .then((deletedRecipe) => {

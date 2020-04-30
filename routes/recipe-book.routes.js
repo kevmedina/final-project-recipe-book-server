@@ -30,7 +30,7 @@ router.post("/add-recipebook", (req, res, next) => {
 // ****************************************************************************************
 
 router.get("/recipe-books", (req, res) => {
-  RecipeBook.find()
+  RecipeBook.find({ author: req.user._id })
     .then((recipeBooksFromDB) => res.status(200).json(recipeBooksFromDB))
     .catch((err) => next(err));
 });
@@ -74,4 +74,3 @@ router.get("/recipe-books/:recipeBookID", (req, res) => {
 });
 
 module.exports = router;
-
