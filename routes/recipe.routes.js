@@ -15,9 +15,9 @@ const axios = require("axios");
 
 // <form action="/recipes" method="POST">
 recipeRouter.post("/add-recipe", (req, res, next) => {
-  const { title, readyInMinutes, servings, image, bookID } = req.body;
+  const { title, bookID, readyInMinutes, servings, image } = req.body;
   Recipe.create({
-    // author: req.user._id,
+    author: req.user._id,
     title,
     ingredients: "",
     bookID,
@@ -28,7 +28,7 @@ recipeRouter.post("/add-recipe", (req, res, next) => {
   })
     .then((recipe) =>
       RecipeBook.findByIdAndUpdate(
-        bookID,
+        recipe.bookID,
         {
           $push: { recipes: recipe },
         },

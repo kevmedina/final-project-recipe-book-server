@@ -7,7 +7,6 @@ const recipeSchema = new Schema(
     author: { type: Schema.Types.ObjectId, ref: "User" },
     title: {
       type: String,
-      required: true,
       trim: true,
     },
     ingredients: {

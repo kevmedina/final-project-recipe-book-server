@@ -14,9 +14,8 @@ const RecipeBook = require("../models/RecipeBook.model");
 
 // <form action="/recipe-books" method="POST">
 router.post("/add-recipebook", (req, res, next) => {
-  // console.log(req.body);
-  const { param } = req.body;
-  RecipeBook.create({ title: param, author: req.user._id })
+  const { title } = req.body;
+  RecipeBook.create({ title, author: req.user._id })
     .then(() =>
       RecipeBook.find().then((allRecipeBooks) =>
         res.status(200).json(allRecipeBooks)
@@ -30,7 +29,7 @@ router.post("/add-recipebook", (req, res, next) => {
 // ****************************************************************************************
 
 router.get("/recipe-books", (req, res) => {
-  RecipeBook.find({ author: req.user._id })
+  RecipeBook.find({author: req.user._id})
     .then((recipeBooksFromDB) => res.status(200).json(recipeBooksFromDB))
     .catch((err) => next(err));
 });
@@ -44,7 +43,9 @@ router.post("/recipe-books/:recipeBookID/delete", (req, res, next) => {
   console.log("Recipe book ID: ", req.params.recipeBookID);
   RecipeBook.findByIdAndRemove(req.params.recipeBookID)
     .then(() =>
-      RecipeBook.find().then((response) => res.status(200).json(response))
+      RecipeBook.find({ author: req.user._id }).then((response) =>
+        res.status(200).json(response)
+      )
     )
     .catch((err) => next(err));
 });
@@ -63,7 +64,7 @@ router.post("/recipe-books/:recipeBookID/update", (req, res) => {
 });
 
 // ****************************************************************************************
-// GET route for getting the recipe book details
+// GET route for getting the recipes for each book
 // ****************************************************************************************
 
 router.get("/recipe-books/:recipeBookID", (req, res) => {
