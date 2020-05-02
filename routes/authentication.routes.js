@@ -109,6 +109,7 @@ router.get("/api/isLoggedIn", (req, res) => {
 
 router.post("/api/update-profile", (req, res) => {
   const { username, email } = req.body;
+  console.log("req.body: ", req.body);
   User.findByIdAndUpdate(req.user._id, { username, email }, { new: true })
     .then((updatedUser) => {
       res.status(200).json(updatedUser);

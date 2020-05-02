@@ -63,9 +63,7 @@ recipeRouter.post("/recipe/delete", (req, res, next) => {
       Recipe.findByIdAndRemove(recipeID)
         .then((deletedRecipe) => {
           console.log("Deleted recipe: ", deletedRecipe);
-          res
-            .status(200)
-            .json({ deletedRecipe, message: "Recipe successfully deleted!" });
+          res.status(200).json(deletedRecipe);
         })
         .catch((err) =>
           console.log("Error while finding the recipe to delete: ", err)

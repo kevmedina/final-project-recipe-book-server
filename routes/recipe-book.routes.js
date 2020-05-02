@@ -29,7 +29,7 @@ router.post("/add-recipebook", (req, res, next) => {
 // ****************************************************************************************
 
 router.get("/recipe-books", (req, res) => {
-  RecipeBook.find({author: req.user._id})
+  RecipeBook.find({ author: req.user._id })
     .then((recipeBooksFromDB) => res.status(200).json(recipeBooksFromDB))
     .catch((err) => next(err));
 });
@@ -40,8 +40,8 @@ router.get("/recipe-books", (req, res) => {
 
 // <form action="/recipe-books/{{this._id}}/delete" method="post">
 router.post("/recipe-books/:recipeBookID/delete", (req, res, next) => {
-  console.log("Recipe book ID: ", req.params.recipeBookID);
-  RecipeBook.findByIdAndRemove(req.params.recipeBookID)
+  const { recipeBookID } = req.params;
+  RecipeBook.findByIdAndRemove(recipeBookID)
     .then(() =>
       RecipeBook.find({ author: req.user._id }).then((response) =>
         res.status(200).json(response)
