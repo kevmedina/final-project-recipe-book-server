@@ -44,7 +44,7 @@ recipeRouter.post("/add-recipe", (req, res, next) => {
 
 recipeRouter.get("/recipes", (req, res, next) => {
   Recipe.find({ author: req.user._id }) // <-- .find() method gives us always an ARRAY back
-    .then((recipesFromDB) => res.status(200).json({ recipes: recipesFromDB }))
+    .then((recipesFromDB) => res.status(200).json(recipesFromDB))
     .catch((err) => next(err));
 });
 
@@ -101,7 +101,7 @@ recipeRouter.get("/recipes/:recipeID", (req, res, next) => {
 
 // Get favorite recipes from DB
 recipeRouter.get("/favorite-recipes", (req, res, next) => {
-  Recipe.find({ favorite: true })
+  Recipe.find({ author: req.user._id, favorite: true })
     .then((favoriteRecipes) => res.status(200).json(favoriteRecipes))
     .catch((err) =>
       console.log("Error while getting the favorite recipes: ", err)
