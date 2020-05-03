@@ -95,7 +95,6 @@ router.post("/api/logout", (req, res, next) => {
 });
 
 router.get("/api/isLoggedIn", (req, res) => {
-  console.log("checking logged in user: ", req.user);
   if (req.user) {
     req.user.passwordHash = undefined;
     res.status(200).json({ user: req.user });
@@ -103,13 +102,10 @@ router.get("/api/isLoggedIn", (req, res) => {
   } else {
     res.status(200).json({ user: false });
   }
-
-  // res.status(401).json({ message: 'Unauthorized access!' });
 });
 
 router.post("/api/update-profile", (req, res) => {
   const { username, email } = req.body;
-  console.log("req.body: ", req.body);
   User.findByIdAndUpdate(req.user._id, { username, email }, { new: true })
     .then((updatedUser) => {
       res.status(200).json(updatedUser);

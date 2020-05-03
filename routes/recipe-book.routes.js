@@ -17,7 +17,7 @@ router.post("/add-recipebook", (req, res, next) => {
   const { title } = req.body;
   RecipeBook.create({ title, author: req.user._id })
     .then(() =>
-      RecipeBook.find().then((allRecipeBooks) =>
+      RecipeBook.find({ author: req.user._id }).then((allRecipeBooks) =>
         res.status(200).json(allRecipeBooks)
       )
     )
@@ -42,11 +42,9 @@ router.get("/recipe-books", (req, res) => {
 router.post("/recipe-books/:recipeBookID/delete", (req, res, next) => {
   const { recipeBookID } = req.params;
   RecipeBook.findByIdAndRemove(recipeBookID)
-    .then(() =>
-      RecipeBook.find({ author: req.user._id }).then((response) =>
-        res.status(200).json(response)
-      )
-    )
+    .then((deletedBook) => {
+      res.status(200).json(deletedBook);
+    })
     .catch((err) => next(err));
 });
 

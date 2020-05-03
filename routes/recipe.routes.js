@@ -24,7 +24,7 @@ recipeRouter.post("/add-recipe", (req, res, next) => {
     readyInMinutes,
     servings,
     image,
-    favorite: false,
+    favorite: false,  
   })
     .then((recipe) =>
       RecipeBook.findByIdAndUpdate(
@@ -62,7 +62,6 @@ recipeRouter.post("/recipe/delete", (req, res, next) => {
     .then(() =>
       Recipe.findByIdAndRemove(recipeID)
         .then((deletedRecipe) => {
-          console.log("Deleted recipe: ", deletedRecipe);
           res.status(200).json(deletedRecipe);
         })
         .catch((err) =>
@@ -113,7 +112,6 @@ recipeRouter.post("/searchExternalAPI", (req, res, next) => {
       `https://api.spoonacular.com/recipes/search?query=${req.body.param}&apiKey=${process.env.API_KEY}`
     )
     .then((recipesFromAPI) => {
-      console.log({ recipes: recipesFromAPI.data.results });
       res.status(200).json(recipesFromAPI.data.results);
     })
     .catch((err) => res.status(400).json({ message: err }));
