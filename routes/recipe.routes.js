@@ -24,7 +24,7 @@ recipeRouter.post("/add-recipe", (req, res, next) => {
     readyInMinutes,
     servings,
     image,
-    favorite: false,  
+    favorite: false,
   })
     .then((recipe) =>
       RecipeBook.findByIdAndUpdate(
@@ -115,6 +115,20 @@ recipeRouter.post("/searchExternalAPI", (req, res, next) => {
       res.status(200).json(recipesFromAPI.data.results);
     })
     .catch((err) => res.status(400).json({ message: err }));
+});
+
+recipeRouter.post("/random-trivia", (req, res, next) => {
+  axios
+    .get(
+      `https://api.spoonacular.com/food/trivia/random?apiKey=${process.env.API_KEY}`
+    )
+    .then((randomTrivia) => {
+      console.log("trivia: ", randomTrivia.data);
+      res.status(200).json(randomTrivia.data);
+    })
+    .catch((err) =>
+      console.log("Error while getting the random food trivia from API: ", err)
+    );
 });
 
 module.exports = recipeRouter;
