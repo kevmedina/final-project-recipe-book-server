@@ -110,11 +110,10 @@ recipeRouter.post("/searchExternalAPI", (req, res, next) => {
   console.log("Front end: ", req.body);
   axios
     .get(
-      `https://api.spoonacular.com/recipes/search?query=${req.body.userData}&number=30&apiKey=${process.env.API_KEY}`
+      `https://api.spoonacular.com/recipes/search?query=${req.body.recipe}&number=30&apiKey=${process.env.API_KEY}`
     )
     .then((recipesFromAPI) => {
       console.log(recipesFromAPI.data.results);
-      console.log("Hello");
       res.status(200).json(recipesFromAPI.data.results);
     })
     .catch((err) => res.status(400).json({ message: err }));

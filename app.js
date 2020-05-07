@@ -23,7 +23,7 @@ require("./configs/db.config");
 // This needs to be set up on the front end sideas well; in axios withCredentials: true
 app.use(
   cors({
-    origin: [process.env.FRONTEND_POINT],
+    origin: true,
     credentials: true,
   })
 );
