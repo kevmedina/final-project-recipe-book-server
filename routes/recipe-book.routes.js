@@ -7,6 +7,7 @@ const router = express.Router();
 // ********* require Recipe and RecipeBook models in order to use them *********
 // const Recipe = require('../models/Recipe.model');
 const RecipeBook = require("../models/RecipeBook.model");
+const Recipe = require("../models/Recipe.model");
 
 // ****************************************************************************************
 // POST - create a recipe book
@@ -41,17 +42,20 @@ router.get("/recipe-books", (req, res) => {
 // <form action="/recipe-books/{{this._id}}/delete" method="post">
 router.post("/recipe-books/:recipeBookID/delete", (req, res, next) => {
   const { recipeBookID } = req.params;
-  RecipeBook.findByIdAndUpdate(
-    recipeBookID,
-    { $set: { recipes: [] } },
-    { new: true }
-  )
+  Recipe.findByIdAndDelete({ bookID: recipeBookID })
     .then(() => {
-      RecipeBook.findByIdAndRemove(recipeBookID).then((deletedBook) => {
+      RecipeBook.findByIdAndDelete(recipeBookID).then((deletedBook) => {
         res.status(200).json(deletedBook);
       });
     })
     .catch((err) => next(err));
+  // RecipeBook.findByIdAndUpdate(
+  //   recipeBookID,
+  //   { $set: { recipes: [] } },
+  //   { new: true }
+  // )
+  //   .then(() => {
+  //   })
 });
 
 // ****************************************************************************************
