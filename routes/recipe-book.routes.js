@@ -42,20 +42,13 @@ router.get("/recipe-books", (req, res) => {
 // <form action="/recipe-books/{{this._id}}/delete" method="post">
 router.post("/recipe-books/:recipeBookID/delete", (req, res, next) => {
   const { recipeBookID } = req.params;
-  Recipe.findByIdAndDelete({ bookID: recipeBookID })
+  RecipeBook.findByIdAndDelete(recipeBookID)
     .then(() => {
-      RecipeBook.findByIdAndDelete(recipeBookID).then((deletedBook) => {
+      Recipe.findByIdAndDelete({ bookID: recipeBookID }).then((deletedBook) => {
         res.status(200).json(deletedBook);
       });
     })
     .catch((err) => next(err));
-  // RecipeBook.findByIdAndUpdate(
-  //   recipeBookID,
-  //   { $set: { recipes: [] } },
-  //   { new: true }
-  // )
-  //   .then(() => {
-  //   })
 });
 
 // ****************************************************************************************
