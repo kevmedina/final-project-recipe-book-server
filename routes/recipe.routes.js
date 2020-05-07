@@ -15,12 +15,12 @@ const axios = require("axios");
 
 // <form action="/recipes" method="POST">
 recipeRouter.post("/add-recipe", (req, res, next) => {
-  const { title, bookID, readyInMinutes, servings, image } = req.body;
+  const { id, title, bookID, readyInMinutes, servings, image } = req.body;
   Recipe.create({
     author: req.user._id,
+    id,
     title,
     ingredients: "",
-    bookID,
     readyInMinutes,
     servings,
     image,
@@ -28,7 +28,7 @@ recipeRouter.post("/add-recipe", (req, res, next) => {
   })
     .then((recipe) =>
       RecipeBook.findByIdAndUpdate(
-        recipe.bookID,
+        bookID,
         {
           $push: { recipes: recipe },
         },
@@ -107,27 +107,45 @@ recipeRouter.get("/favorite-recipes", (req, res, next) => {
 
 // Get recipe from external API
 recipeRouter.post("/searchExternalAPI", (req, res, next) => {
+  console.log("Front end: ", req.body);
   axios
     .get(
-      `https://api.spoonacular.com/recipes/search?query=${req.body.param}&apiKey=${process.env.API_KEY}`
+      `https://api.spoonacular.com/recipes/search?query=${req.body.userData}&number=30&apiKey=${process.env.API_KEY}`
     )
     .then((recipesFromAPI) => {
+      console.log(recipesFromAPI.data.results);
+      console.log("Hello");
       res.status(200).json(recipesFromAPI.data.results);
     })
     .catch((err) => res.status(400).json({ message: err }));
 });
 
+// GET random food trivia
 recipeRouter.post("/random-trivia", (req, res, next) => {
   axios
     .get(
       `https://api.spoonacular.com/food/trivia/random?apiKey=${process.env.API_KEY}`
     )
     .then((randomTrivia) => {
-      console.log("trivia: ", randomTrivia.data);
       res.status(200).json(randomTrivia.data);
     })
     .catch((err) =>
       console.log("Error while getting the random food trivia from API: ", err)
+    );
+});
+
+// GET ingredients for recipe
+recipeRouter.post("/get-ingredients/:id", (req, res, next) => {
+  const { id } = req.params;
+  axios
+    .get(
+      `https://api.spoonacular.com/recipes/${id}/ingredientWidget.json?apiKey=${process.env.API_KEY}`
+    )
+    .then((ingredients) => {
+      res.status(200).json(ingredients.data);
+    })
+    .catch((err) =>
+      console.log("Error while getting the ingredients on server side: ", err)
     );
 });
 

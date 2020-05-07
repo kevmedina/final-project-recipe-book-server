@@ -5,6 +5,7 @@ const recipeSchema = new Schema(
   {
     // unless you are defining more than the "type" property, you don't have to use {}
     author: { type: Schema.Types.ObjectId, ref: "User" },
+    id: Number,
     title: {
       type: String,
       trim: true,
@@ -12,10 +13,6 @@ const recipeSchema = new Schema(
     ingredients: {
       type: [String],
       trim: true,
-    },
-    bookID: {
-      type: Schema.Types.ObjectId,
-      ref: "RecipeBook",
     },
     readyInMinutes: Number,
     servings: Number,
