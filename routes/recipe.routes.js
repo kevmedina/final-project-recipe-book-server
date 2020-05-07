@@ -110,7 +110,7 @@ recipeRouter.post("/searchExternalAPI", (req, res, next) => {
   console.log("Front end: ", req.body);
   axios
     .get(
-      `https://api.spoonacular.com/recipes/search?query=${req.body.recipe}&number=30&apiKey=${process.env.API_KEY}`
+      `https://api.spoonacular.com/recipes/search?query=${req.body.param}&number=30&apiKey=${process.env.API_KEY}`
     )
     .then((recipesFromAPI) => {
       console.log(recipesFromAPI.data.results);
