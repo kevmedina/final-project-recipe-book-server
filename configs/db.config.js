@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 
-const DB_NAME = 'recipe-book-server';
-
 mongoose
-  .connect(`mongodb://localhost/${DB_NAME}`, {
+  .connect(process.env.MONGODB_URI, {
     useCreateIndex: true,
     useNewUrlParser: true,
     useUnifiedTopology: true,
