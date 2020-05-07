@@ -21,6 +21,7 @@ recipeRouter.post("/add-recipe", (req, res, next) => {
     id,
     title,
     ingredients: "",
+    bookID,
     readyInMinutes,
     servings,
     image,
@@ -107,13 +108,11 @@ recipeRouter.get("/favorite-recipes", (req, res, next) => {
 
 // Get recipe from external API
 recipeRouter.post("/searchExternalAPI", (req, res, next) => {
-  console.log("Front end: ", req.body);
   axios
     .get(
       `https://api.spoonacular.com/recipes/search?query=${req.body.param}&number=30&apiKey=${process.env.API_KEY}`
     )
     .then((recipesFromAPI) => {
-      console.log(recipesFromAPI.data.results);
       res.status(200).json(recipesFromAPI.data.results);
     })
     .catch((err) => res.status(400).json({ message: err }));

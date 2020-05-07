@@ -14,6 +14,10 @@ const recipeSchema = new Schema(
       type: [String],
       trim: true,
     },
+    bookID: {
+      type: Schema.Types.ObjectId,
+      ref: "RecipeBook",
+    },
     readyInMinutes: Number,
     servings: Number,
     image: {
