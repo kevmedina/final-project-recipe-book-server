@@ -15,12 +15,20 @@ const axios = require("axios");
 
 // <form action="/recipes" method="POST">
 recipeRouter.post("/add-recipe", (req, res, next) => {
-  const { id, title, bookID, readyInMinutes, servings, image } = req.body;
+  const {
+    id,
+    title,
+    ingredients,
+    bookID,
+    readyInMinutes,
+    servings,
+    image,
+  } = req.body;
   Recipe.create({
     author: req.user._id,
     id,
     title,
-    ingredients: "",
+    ingredients: ingredients ? ingredients : null,
     bookID,
     readyInMinutes,
     servings,

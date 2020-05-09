@@ -11,7 +11,7 @@ const recipeSchema = new Schema(
       trim: true,
     },
     ingredients: {
-      type: [String],
+      type: String,
       trim: true,
     },
     bookID: {
