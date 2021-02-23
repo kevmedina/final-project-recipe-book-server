@@ -23,7 +23,7 @@ const userSchema = new Schema(
     image: {
       type: String,
       default:
-        "https://lh3.googleusercontent.com/proxy/mY819mIdue_DtALuZUkmehqO49bAzg-Cfboqd-MWPBsxnhAtbsmZdhLbNtyiYfeWWjJp7M0Cj1HFZkZ6yOcpljrWKRWQ3t_rNJVLlVOWcHTNoNsH3Qb4TQ",
+        "https://res.cloudinary.com/dtpkbfvr5/image/upload/v1614046732/avatar_j8q2jr.png",
     },
   },
   {
