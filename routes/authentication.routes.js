@@ -75,7 +75,7 @@ router.post("/api/login", (req, res, next) => {
     }
 
     if (!user) {
-      res.status(401).json(failureDetails);
+      return res.status(401).json(failureDetails);
     }
 
     req.login(user, (err) => {
@@ -85,6 +85,7 @@ router.post("/api/login", (req, res, next) => {
           .json({ message: "Something went wrong with login!" });
       user.passwordHash = undefined;
       res.status(200).json({ message: "Login successful!", user });
+      return;
     });
   })(req, res, next);
 });
