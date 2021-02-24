@@ -30,11 +30,11 @@ app.use(
 
 // Middleware Setup
 app.use(logger("dev"));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 // make sure express- session is used before the passport
 require("./configs/session.config")(app);

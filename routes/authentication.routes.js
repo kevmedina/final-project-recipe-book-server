@@ -69,7 +69,7 @@ router.post("/api/signup", (req, res, next) => {
 router.post("/api/login", (req, res, next) => {
   passport.authenticate("local", (err, user, failureDetails) => {
     if (err) {
-      res
+      return res
         .status(500)
         .json({ message: "Something went wrong with database query." });
     }
