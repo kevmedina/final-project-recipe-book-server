@@ -79,13 +79,14 @@ router.post("/api/login", (req, res, next) => {
     }
 
     req.login(user, (err) => {
-      if (err)
+      if (err) {
         return res
           .status(500)
           .json({ message: "Something went wrong with login!" });
-      user.passwordHash = undefined;
-      res.status(200).json({ message: "Login successful!", user });
-      return;
+      } else {
+        user.passwordHash = undefined;
+        return res.status(200).json({ message: "Login successful!", user });
+      }
     });
   })(req, res, next);
 });
