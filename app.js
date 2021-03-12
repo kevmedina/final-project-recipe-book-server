@@ -29,10 +29,11 @@ app.use(
 );
 
 // Middleware Setup
+app.use(express.static(path.join(__dirname, "public")));
 app.use(logger("dev"));
+app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -41,7 +42,6 @@ require("./configs/session.config")(app);
 
 require("./configs/passport/passport.config.js")(app);
 
-app.use(express.static(path.join(__dirname, "public")));
 app.use(favicon(path.join(__dirname, "public", "images", "favicon.ico")));
 
 // default value for title local
