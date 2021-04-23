@@ -1,29 +1,36 @@
 // require session
 const session = require("express-session");
-
-// require mongostore (if you need it)
-const MongoStore = require("connect-mongo")(session);
-
-// require mongoose (you need it only if you need mongostore)
+// ADDED: require mongostore
+const MongoStore = require("connect-mongo");
+// ADDED: require mongoose
 const mongoose = require("mongoose");
-
 // since we are going to USE this middleware in the app.js,
 // let's export it and have it receive a parameter
-module.exports = app => {
+module.exports = (app) => {
   //              |
-  // app is just a placeholder here but will become a real "app"
-  // in the app.js when this file gets imported/required there
-
+  //              app is just a placeholder here but will become a real "app"
+  //              in the app.js when this file gets imported/required there
+  // required for the app when deployed to Heroku (in production)
+  app.set("trust proxy", 1);
+  // use session
   app.use(
     session({
+      // in the network tab, we will be able to see the cookie - this secret is getting hashed inside that cookie
       secret: process.env.SESS_SECRET,
-      resave: false,
-      saveUninitialized: true,
-      cookie: { maxAge: 86400000 },
-      store: new MongoStore({
-        mongooseConnection: mongoose.connection,
-        ttl: 60 * 60 * 24 // 1 day
-      })
+      resave: true,
+      saveUninitialized: false,
+      cookie: {
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+        secure: process.env.NODE_ENV === "production",
+        httpOnly: true,
+        maxAge: 86400000, // === 1 day
+      },
+      store: MongoStore.create({
+        // <== ADDED !!!
+        mongoUrl: process.env.MONGODB_URI || "mongodb://localhost/basicAuth",
+        // ttl => time to live
+        // ttl: 60 * 60 * 24 // 60sec * 60min * 24h => 1 day
+      }),
     })
   );
 };
