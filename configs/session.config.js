@@ -1,7 +1,7 @@
 // require session
 const session = require("express-session");
 // ADDED: require mongostore
-const MongoStore = require("connect-mongo");
+const MongoStore = require("connect-mongo").default;
 // ADDED: require mongoose
 const mongoose = require("mongoose");
 // since we are going to USE this middleware in the app.js,
@@ -27,7 +27,9 @@ module.exports = (app) => {
       },
       store: MongoStore.create({
         // <== ADDED !!!
-        mongoUrl: process.env.MONGODB_URI || "mongodb://localhost/basicAuth",
+        mongoUrl:
+          process.env.MONGODB_URI ||
+          "mongodb://localhost:27017/receipe-book-server",
         // ttl => time to live
         // ttl: 60 * 60 * 24 // 60sec * 60min * 24h => 1 day
       }),
